@@ -4,8 +4,8 @@
   "description": "a repo to practice working with a full stack application using a sql database",
   "main": "",
   "scripts": {
-    "db": "nodemon db/index.js",
     "db-schema": "mysql -u root -p < db/schema.sql",
+    "db-seed": "node db/seed.js",
     "build": "webpack -w",
     "start": "nodemon"
   },
