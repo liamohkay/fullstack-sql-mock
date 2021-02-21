@@ -3,10 +3,9 @@ const db = require('./index.js');
 var getQueryArgs = req => {
   let cols = [];
   let vals = [];
-
   Object.keys(req.body).map(key => {
     cols.push(key);
-    vals.push(`'${product[key]}'`);
+    vals.push(`'${req.body[key]}'`);
   });
 
   return { cols, vals };

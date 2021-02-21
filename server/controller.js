@@ -9,7 +9,13 @@ const controller = {
     });
   },
 
-  post: (req, res) => {},
+  post: (req, res) => {
+    dbHelpers.post(req, (err, result) => {
+      if (err) res.status(400).send(err);
+      else res.status(200).send(`Posted ${req.body.item} to db`);
+    });
+  },
+
   put: (req, res) => {},
   delete: (req, res) => {}
 }
