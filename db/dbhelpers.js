@@ -14,12 +14,12 @@ var getQueryArgs = req => {
 
 const dbHelpers = {
 
-  getProductsHelper: (callback) => {
+  get: (callback) => {
     let query = `SELECT * FROM products`;
     db.query(query, (err, data) => callback(err, data));
   },
 
-  postProductsHelper: (req, callback) => {
+  post: (req, callback) => {
     let args = getQueryArgs(req);
     let query = `
       INSERT INTO products (${args.cols.join(', ')})
@@ -33,3 +33,4 @@ const dbHelpers = {
 
 }
 
+module.exports = dbHelpers;
