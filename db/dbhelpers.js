@@ -43,9 +43,12 @@ const dbHelpers = {
       SET ${setVals.join(', ')}
       WHERE id=${req.params.id}`;
     db.query(query, (err, result) => callback(err, result));
-  }
+  },
 
-  // deleteProductHelper = () =>
+  delete: (req, callback) => {
+    query = `DELETE FROM products WHERE id=${req.params.id}`;
+    db.query(query, (err, result) => callback(err, result));
+  }
 
 }
 
