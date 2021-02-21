@@ -9,7 +9,8 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      products: []
+      products: [],
+      selected: {}
     }
 
     // Bind functions + listeners
@@ -17,12 +18,15 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getProducts();
+    this.getProducts()
+      .then(() => this.setState({ selected: this.state.products[0] }))
+      .catch(err => alert(err))
   }
 
   getProducts() {
     return axios.get('/api/products')
-      .then(resp => this.setState({ products: resp.data }, () => console.log(this.state.products)));
+      .then(resp => this.setState({ products: resp.data }, () => console.log(this.state.products)))
+      .catch(err => alert(err))
   }
 
   render(){
@@ -30,7 +34,7 @@ export default class App extends React.Component {
     return(
       <div>
         <div>
-          <h1>EBID</h1>
+          <h1>OK-bay</h1>
           <h3>The jankiest ebay rip-off you'll ever see (probably)</h3>
         </div>
         <nav className="navbar">
@@ -40,7 +44,7 @@ export default class App extends React.Component {
         </nav>
         <div className="row main-container">
           <div className="col-md-7 product-viewer-container">
-            <ProductViewer />
+            <ProductViewer selected={this.state.selected}/>
           </div>
           <div className="col-md-5 product-list-container">
             <ProductList products={this.state.products}/>
