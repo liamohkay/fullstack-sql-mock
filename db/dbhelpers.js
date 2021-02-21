@@ -5,7 +5,11 @@ var getQueryArgs = req => {
   let vals = [];
   Object.keys(req.body).map(key => {
     cols.push(key);
-    vals.push(`'${req.body[key]}'`);
+    if (key === 'item' || key === 'image') {
+      vals.push(`'${req.body[key]}'`);
+    } else {
+      vals.push(req.body[key]);
+    }
   });
 
   return { cols, vals };
@@ -24,9 +28,22 @@ const dbHelpers = {
       INSERT INTO products (${args.cols.join(', ')})
       VALUES (${args.vals.join(', ')})`;
     db.query(query, (err, data) => callback(err, data));
-  }
+  },
 
-  // updateProductHelper = () =>
+  put: (req, callback) => {
+    let args = getQueryArgs(req);
+    let setVals = []
+
+    for (i = 0; i < args.cols.length; i++) {
+      setVals.push(`${args.cols[i]}=${args.vals[i]}`);
+    }
+
+    let query = `
+      UPDATE products
+      SET ${setVals.join(', ')}
+      WHERE id=${req.params.id}`;
+    db.query(query, (err, result) => callback(err, result));
+  }
 
   // deleteProductHelper = () =>
 
