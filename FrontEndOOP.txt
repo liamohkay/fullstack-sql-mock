@@ -1,0 +1,6 @@
+- List all products in sidebar
+  - sidebar contains picture, title, current bid, time left
+
+- main portion lists first item then whatever item from sidebar is clicked
+  - can bid on current item
+  - if bid too low then alert error message
