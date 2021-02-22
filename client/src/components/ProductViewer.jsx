@@ -26,7 +26,7 @@ export default class ProductViewer extends React.Component {
     return (
       <div>
         {
-          products === null ? null :
+          products.length === 0 ? null :
           <div className="product-viewer">
             <img src={ products[index].image }/>
             <h3>{ products[index].item }</h3>

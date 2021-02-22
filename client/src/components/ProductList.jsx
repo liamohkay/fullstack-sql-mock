@@ -4,9 +4,9 @@ import Product from './Product';
 const ProductList = props => {
    return(
     <div className='product-list' >
-      { props.products.map((product, key) =>
+      { props.products.map((product, index) =>
           <Product
-            index={key}
+            index={index}
             item={product.item}
             image={product.image}
             curr_bid={product.curr_bid}

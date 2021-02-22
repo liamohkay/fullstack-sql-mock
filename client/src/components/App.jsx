@@ -9,8 +9,8 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      products: null,
-      selectedIndex: null
+      products: [],
+      selectedIndex: []
     }
 
     // Bind functions + listeners
@@ -49,7 +49,7 @@ export default class App extends React.Component {
             <ProductViewer products={this.state.products} index={this.state.selectedIndex}/>
           </div>
           <div className="col-md-5 product-list-container">
-            {/* <ProductList products={this.state.products} handleClick={this.handleClick}/> */}
+            <ProductList products={this.state.products} handleClick={this.handleClick}/>
           </div>
         </div>
       </div>
