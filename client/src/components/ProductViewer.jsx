@@ -8,22 +8,22 @@ export default class ProductViewer extends React.Component {
   }
 
   render() {
-    const products = this.props.products;
-    const index = this.props.index;
-    return (
-      <div>
-        {
-          products.length === 0 ? null :
-          <div className="product-viewer">
-            <img src={ products[index].image }/>
-            <h3>{ products[index].item }</h3>
-            <br></br>
-            Current Bid: ${products[index].curr_bid}
-            <br></br>
-            Original Posting Pirce: ${products[index].min_cost}
-          </div>
-        }
-      </div>
-    );
+    const products = this.props.product;
+    if (!this.props.product) {
+      return (
+        <div></div>
+      );
+    } else {
+      return (
+        <div className="product-viewer">
+          <img src={ products.image }/>
+          <h3>{ products.item }</h3>
+          <br></br>
+          Current Bid: ${products.curr_bid}
+          <br></br>
+          Original Posting Pirce: ${products.min_cost}
+        </div>
+      );
+    }
   }
 }

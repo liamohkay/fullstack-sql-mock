@@ -31,24 +31,74 @@ const createProducts = () => {
   return productsArr
 }
 
+/* ------------------
+Users + Password Seed
+------------------ */
+const alphaNum = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'.split('');
+const users = ['liam', 'mai', 'sarah', 'chris', 'weilly', 'justine', 'sophia', 'phil', 'leila', 'spacemilk', 'alyssa'];
+const tags = ['123', '2021', '2020', 'covid', '69', '420', '000', '1994', '1995'];
+
+// Helper functions
+const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min) + min);
+
+// Randomly picks a user
+const createUser = () => users[getRandomNumber(0, users.length)] + tags[getRandomNumber(0, tags.length)];
+
+// Creates a random password of capital alpha numeric
+const createPassword = (min, max) => {
+  let length = getRandomNumber(min, max);
+  let password = '';
+
+  for (var i = 0; i < length; i++) {
+    password += alphaNum[getRandomNumber(0, alphaNum.length)];
+  }
+
+  return password;
+};
+
+const createUsers = () => {
+  let users = [];
+  for (var i = 0; i < 3; i++) {
+    users.push({ username: createUser(), password: createPassword(5, 15) });
+  }
+  return users;
+};
+
+/* -------------
+Insert Mock Data
+------------- */
 const insertMockData = function() {
+  // Products
   let mockProducts = createProducts();
+  let mockUsers = createUsers();
 
-  mockProducts.map(product => {
-    let cols = [];
-    let vals = [];
+  // Dynamically inserts into db table. Rows is an arry containg objs of key val pairs for the tbl
+  var insertIntoTbl = (tbl, rows) => {
+    rows.map(row => {
+      let cols = [];
+      let vals = [];
 
-    Object.keys(product).map(key => {
-      cols.push(key);
-      vals.push(`'${product[key]}'`);
+      Object.keys(row).map(key => {
+        cols.push(key);
+        vals.push(`'${row[key]}'`);
+      });
+
+      let query = `
+        INSERT INTO ${tbl} (${cols.join(', ')})
+        VALUES (${vals.join(', ')});`
+      db.query(query, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else if (tbl === 'products') {
+          console.log(`Successfully added ${row.item} to ${tbl}`);
+        } else if (tbl === 'users') {
+          console.log(`Successfully added ${row.username} to ${tbl}`);
+        }
+      });
     });
+  }
 
-    let query = `
-      INSERT INTO products (${cols.join(', ')})
-      VALUES (${vals.join(', ')});`
-    db.query(query, (err, result) => {
-      if (err) console.log(err);
-      else console.log(`Successfully added ${product.item} to db`);
-    });
-  });
+  insertIntoTbl('products', mockProducts);
+  insertIntoTbl('users', mockUsers);
+
 }();

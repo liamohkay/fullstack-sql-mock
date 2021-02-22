@@ -2,6 +2,7 @@ import React from 'react';
 import ProductList from './ProductList';
 import ProductViewer from './ProductViewer';
 import Search from './Search';
+import Login from './Login';
 
 import axios from 'axios';
 
@@ -12,7 +13,10 @@ export default class App extends React.Component {
       products: [],
       selectedIndex: null,
       newBid: null,
-      searchText: null
+      searchText: null,
+      username: null,
+      password: null,
+      isLoggedIn: false
     }
 
     // Bind functions + listeners
@@ -62,6 +66,11 @@ export default class App extends React.Component {
     .catch(err => alert(err))
   }
 
+  handleLogin(e) {
+    e.preventDefault();
+
+  }
+
   render(){
     return(
       <div>
@@ -69,6 +78,9 @@ export default class App extends React.Component {
           <h1>Leebay</h1>
           <h3>The jankiest ebay rip-off you'll ever see (probably)</h3>
         </div>
+        <br></br>
+        <Login handleChange={this.handleChange}/>
+        <br></br>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
             <Search handleChange={this.handleChange} handleSearch={this.handleSearch}/>
@@ -76,7 +88,7 @@ export default class App extends React.Component {
         </nav>
         <div className="row main-container">
           <div className="col-md-7 product-viewer-container">
-            <ProductViewer products={this.state.products} index={this.state.selectedIndex}/>
+            <ProductViewer product={this.state.products[this.state.selectedIndex]}/>
             <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
               <label htmlFor="newBid">New Bid: </label>
               <input type="text" name="newBid"></input>

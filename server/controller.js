@@ -29,6 +29,7 @@ const controller = {
       else res.status(200).send(`Deleted product id: ${req.params.id}`)
     });
   }
+
 }
 
 module.exports = controller;

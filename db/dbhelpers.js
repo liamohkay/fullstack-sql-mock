@@ -48,6 +48,14 @@ const dbHelpers = {
   delete: (req, callback) => {
     query = `DELETE FROM products WHERE id=${req.params.id}`;
     db.query(query, (err, result) => callback(err, result));
+  },
+
+  getLogin: (req, callback) => {
+    let query = `
+    SELECT * FROM users
+    WHERE username = ${req.params.username}
+    AND password = ${req.params.password}`;
+    db.query(query, (err, data) => callback(err, data));
   }
 
 }
