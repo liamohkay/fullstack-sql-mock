@@ -11,7 +11,8 @@ export default class App extends React.Component {
     this.state = {
       products: [],
       selectedIndex: null,
-      newBid: null
+      newBid: null,
+      searchText: null
     }
 
     // Bind functions + listeners
@@ -19,6 +20,7 @@ export default class App extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -35,8 +37,15 @@ export default class App extends React.Component {
     this.setState({ selectedIndex: e }, () => console.log(this.state));
   }
 
+  handleSearch(e) {
+    let searchText = this.state.searchText;
+    let searchResults = _.filter(this.state.products,
+      product => product.item.toLowerCase().includes(searchText.toLowerCase()));
+    this.setState({ products: searchResults });
+  }
+
   handleChange(e) {
-    this.setState({ newBid: e.target.value }, () => console.log(this.state));
+    this.setState({ [e.target.name]: e.target.value }, () => console.log(this.state));
   }
 
   handleSubmit(e) {
@@ -57,20 +66,20 @@ export default class App extends React.Component {
     return(
       <div>
         <div>
-          <h1>OK-bay</h1>
+          <h1>Leebay</h1>
           <h3>The jankiest ebay rip-off you'll ever see (probably)</h3>
         </div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search />
+            <Search handleChange={this.handleChange} handleSearch={this.handleSearch}/>
           </div>
         </nav>
         <div className="row main-container">
           <div className="col-md-7 product-viewer-container">
             <ProductViewer products={this.state.products} index={this.state.selectedIndex}/>
             <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
-              <label htmlFor="bid">New Bid: </label>
-              <input type="text" name="bid"></input>
+              <label htmlFor="newBid">New Bid: </label>
+              <input type="text" name="newBid"></input>
               <button type="submit">Submit</button>
             </form>
           </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 
-var Search = () => (
-  <div className="search-bar form-inline">
-    <input className="form-control" type="text"/>
-    <button className="btn hidden-sm-down">
+var Search = props => (
+  <form onClick={props.handleSearch}>
+    <input type="text" name="searchText" onChange={props.handleChange}></input>
+    <button type="button" className="btn hidden-sm-down" on>
       <span className="glyphicon glyphicon-search"></span>
     </button>
-  </div>
+  </form>
 );
 
 export default Search;
