@@ -2,7 +2,7 @@ import React from 'react';
 
 const Product = props => {
    return(
-    <div className='product-list-entry'>
+    <div className='product-list-entry' onClick={() => props.handleClick(props.index)}>
       <img src={props.image}/>
       {props.item}
       <br></br>
