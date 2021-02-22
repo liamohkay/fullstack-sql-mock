@@ -9,28 +9,30 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      products: [],
-      selected: {}
+      products: null,
+      selectedIndex: null
     }
 
     // Bind functions + listeners
     this.getProducts = this.getProducts.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    this.getProducts()
-      .then(() => this.setState({ selected: this.state.products[0] }))
-      .catch(err => alert(err))
+    this.getProducts();
   }
 
   getProducts() {
     return axios.get('/api/products')
-      .then(resp => this.setState({ products: resp.data }, () => console.log(this.state.products)))
+      .then(resp => this.setState({ products: resp.data, selectedIndex: 0 }))
       .catch(err => alert(err))
   }
 
-  render(){
+  handleClick(e) {
+    this.setState({ selected: e.target.value }, ()=>console.log(e));
+  }
 
+  render(){
     return(
       <div>
         <div>
@@ -44,10 +46,10 @@ export default class App extends React.Component {
         </nav>
         <div className="row main-container">
           <div className="col-md-7 product-viewer-container">
-            <ProductViewer selected={this.state.selected}/>
+            <ProductViewer products={this.state.products} index={this.state.selectedIndex}/>
           </div>
           <div className="col-md-5 product-list-container">
-            <ProductList products={this.state.products}/>
+            {/* <ProductList products={this.state.products} handleClick={this.handleClick}/> */}
           </div>
         </div>
       </div>
